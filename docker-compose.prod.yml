@@ -1,0 +1,43 @@
+services:
+
+  db:
+    image: postgres:17
+    restart: always
+    volumes:
+      - app-db-data:/var/lib/postgresql/data
+    env_file:
+      - .env.prod
+
+  prestart:
+    image: ${DOCKER_IMAGE_BACKEND}:latest
+    depends_on:
+      - db
+    command: bash scripts/prestart.sh
+    env_file:
+      - .env.prod
+
+  backend:
+    image: ${DOCKER_IMAGE_BACKEND}:latest
+    restart: always
+    depends_on:
+      - db
+      - prestart
+    env_file:
+      - .env.prod
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=Host(`localhost`)
+      - traefik.http.services.backend.loadbalancer.server.port=8000
+
+  frontend:
+    image: ${DOCKER_IMAGE_FRONTEND}:latest
+    restart: always
+    depends_on:
+      - backend
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=Host(`localhost`)
+      - traefik.http.services.frontend.loadbalancer.server.port=80
+
+volumes:
+  app-db-data:
