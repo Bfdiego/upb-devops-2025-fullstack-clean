@@ -60,7 +60,7 @@ jobs:
             docker compose pull
             docker compose up -d
 
-      # 6️⃣ Notificación a Discord
+      # 6️⃣ Notificación a Discordia
       - name: Notify Discord
         if: always()
         uses: Ilshidur/action-discord@master
