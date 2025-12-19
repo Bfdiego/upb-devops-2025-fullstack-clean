@@ -1,11 +1,3 @@
-Perfecto Diego, ahora sí 👍
-Te dejo EL README COMPLETO, bien escrito, ordenado, largo, formal y alineado a rúbricas DevOps, listo para copiar/pegar tal cual como README.md.
-No es resumen, es versión final entregable.
-
-Tómate esto como documentación oficial del proyecto.
-
-⸻
-
 🚀 Proyecto DevOps – Fullstack con CI/CD y Observabilidad
 
 📘 Información General
