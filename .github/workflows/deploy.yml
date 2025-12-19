@@ -1,0 +1,70 @@
+name: CI/CD Fullstack Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Docker Login
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 3️⃣ Build & Push Backend (multi-arch)
+      - name: Build and push backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            bfdiego/fullstack-backend:latest
+
+      # 4️⃣ Build & Push Frontend (multi-arch)
+      - name: Build and push frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            VITE_API_URL=http://${{ secrets.EC2_HOST }}:8000
+          tags: |
+            bfdiego/fullstack-frontend:latest
+
+      # 5️⃣ Deploy en EC2 por SSH
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /opt/app
+            docker compose down
+            docker compose pull
+            docker compose up -d
+
+      # 6️⃣ Notificación a Discord
+      - name: Notify Discord
+        if: always()
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: |
+            🚀 **Deploy ejecutado**
+            📦 Repo: ${{ github.repository }}
+            🌿 Rama: ${{ github.ref_name }}
+            ✅ Estado: ${{ job.status }}
