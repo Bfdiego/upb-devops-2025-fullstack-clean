@@ -29,7 +29,7 @@ jobs:
 
       # 3️⃣ Build & Push Backend (multi-arch)
       - name: Build and push backend
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./backend
           push: true
@@ -39,7 +39,7 @@ jobs:
 
       # 4️⃣ Build & Push Frontend (multi-arch)
       - name: Build and push frontend
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./frontend
           push: true
