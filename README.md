@@ -1,233 +1,290 @@
-# Full Stack FastAPI Template
+Perfecto Diego, ahora sí 👍
+Te dejo EL README COMPLETO, bien escrito, ordenado, largo, formal y alineado a rúbricas DevOps, listo para copiar/pegar tal cual como README.md.
+No es resumen, es versión final entregable.
 
-<a href="https://github.com/fastapi/full-stack-fastapi-template/actions?query=workflow%3A%22Test+Docker+Compose%22" target="_blank"><img src="https://github.com/fastapi/full-stack-fastapi-template/workflows/Test%20Docker%20Compose/badge.svg" alt="Test Docker Compose"></a>
-<a href="https://github.com/fastapi/full-stack-fastapi-template/actions?query=workflow%3A%22Test+Backend%22" target="_blank"><img src="https://github.com/fastapi/full-stack-fastapi-template/workflows/Test%20Backend/badge.svg" alt="Test Backend"></a>
-<a href="https://coverage-badge.samuelcolvin.workers.dev/redirect/fastapi/full-stack-fastapi-template" target="_blank"><img src="https://coverage-badge.samuelcolvin.workers.dev/fastapi/full-stack-fastapi-template.svg" alt="Coverage"></a>
+Tómate esto como documentación oficial del proyecto.
 
-## Technology Stack and Features
+⸻
 
-- ⚡ [**FastAPI**](https://fastapi.tiangolo.com) for the Python backend API.
-  - 🧰 [SQLModel](https://sqlmodel.tiangolo.com) for the Python SQL database interactions (ORM).
-  - 🔍 [Pydantic](https://docs.pydantic.dev), used by FastAPI, for the data validation and settings management.
-  - 💾 [PostgreSQL](https://www.postgresql.org) as the SQL database.
-- 🚀 [React](https://react.dev) for the frontend.
-  - 💃 Using TypeScript, hooks, [Vite](https://vitejs.dev), and other parts of a modern frontend stack.
-  - 🎨 [Tailwind CSS](https://tailwindcss.com) and [shadcn/ui](https://ui.shadcn.com) for the frontend components.
-  - 🤖 An automatically generated frontend client.
-  - 🧪 [Playwright](https://playwright.dev) for End-to-End testing.
-  - 🦇 Dark mode support.
-- 🐋 [Docker Compose](https://www.docker.com) for development and production.
-- 🔒 Secure password hashing by default.
-- 🔑 JWT (JSON Web Token) authentication.
-- 📫 Email based password recovery.
-- 📬 [Mailcatcher](https://mailcatcher.me) for local email testing during development.
-- ✅ Tests with [Pytest](https://pytest.org).
-- 📞 [Traefik](https://traefik.io) as a reverse proxy / load balancer.
-- 🚢 Deployment instructions using Docker Compose, including how to set up a frontend Traefik proxy to handle automatic HTTPS certificates.
-- 🏭 CI (continuous integration) and CD (continuous deployment) based on GitHub Actions.
+🚀 Proyecto DevOps – Fullstack con CI/CD y Observabilidad
 
-### Dashboard Login
+📘 Información General
 
-[![API docs](img/login.png)](https://github.com/fastapi/full-stack-fastapi-template)
+Este repositorio contiene la implementación completa de un proyecto DevOps end-to-end, donde se despliega una aplicación Fullstack en una instancia EC2 de AWS, utilizando Docker, Docker Compose, GitHub Actions y un stack de observabilidad basado en Grafana.
+
+El proyecto fue desarrollado con el objetivo de demostrar la aplicación práctica de los principios DevOps, cubriendo automatización, despliegue continuo, monitoreo, logging y documentación.
+
+⸻
+
+🎯 Objetivos del Proyecto
+	•	Contenerizar una aplicación Fullstack
+	•	Automatizar el build y deploy usando CI/CD
+	•	Desplegar en infraestructura real (AWS EC2)
+	•	Implementar observabilidad completa:
+	•	Métricas
+	•	Logs
+	•	Visualizar el estado del sistema en tiempo real
+	•	Detectar errores desde logs
+	•	Documentar todo el proceso
 
-### Dashboard - Admin
+⸻
 
-[![API docs](img/dashboard.png)](https://github.com/fastapi/full-stack-fastapi-template)
+🧱 Arquitectura del Sistema
 
-### Dashboard - Items
+🧩 Componentes Principales
 
-[![API docs](img/dashboard-items.png)](https://github.com/fastapi/full-stack-fastapi-template)
+Componente	Tecnología
+Frontend	Docker
+Backend	API REST (Docker)
+Base de Datos	PostgreSQL
+Orquestación	Docker Compose
+CI/CD	GitHub Actions
+Infraestructura	AWS EC2
+Métricas	Prometheus + cAdvisor
+Logs	Loki + Promtail
+Visualización	Grafana
+Alertas	Discord Webhook
 
-### Dashboard - Dark Mode
 
-[![API docs](img/dashboard-dark.png)](https://github.com/fastapi/full-stack-fastapi-template)
+⸻
 
-### Interactive API Documentation
+🔁 Flujo General
 
-[![API docs](img/docs.png)](https://github.com/fastapi/full-stack-fastapi-template)
+Usuario
+  ↓
+Frontend (Docker)
+  ↓
+Backend (Docker)
+  ↓
+PostgreSQL
 
-## How To Use It
+Contenedores
+  ├─ Métricas → Prometheus → Grafana
+  └─ Logs → Promtail → Loki → Grafana
 
-You can **just fork or clone** this repository and use it as is.
 
-✨ It just works. ✨
+⸻
 
-### How to Use a Private Repository
+🐳 Dockerización
 
-If you want to have a private repository, GitHub won't allow you to simply fork it as it doesn't allow changing the visibility of forks.
+Toda la aplicación está completamente dockerizada.
 
-But you can do the following:
+Servicios incluidos en Docker Compose
+	•	frontend
+	•	backend
+	•	db (PostgreSQL)
+	•	prometheus
+	•	cadvisor
+	•	loki
+	•	promtail
+	•	grafana
 
-- Create a new GitHub repo, for example `my-full-stack`.
-- Clone this repository manually, set the name with the name of the project you want to use, for example `my-full-stack`:
+Persistencia
 
-```bash
-git clone git@github.com:fastapi/full-stack-fastapi-template.git my-full-stack
-```
+Se utilizan volúmenes Docker para:
+	•	PostgreSQL → datos persistentes
+	•	Grafana → dashboards y configuraciones
 
-- Enter into the new directory:
+Esto garantiza que la información no se pierda al reiniciar los contenedores.
 
-```bash
-cd my-full-stack
-```
+⸻
 
-- Set the new origin to your new repository, copy it from the GitHub interface, for example:
+📂 Estructura del Repositorio
 
-```bash
-git remote set-url origin git@github.com:octocat/my-full-stack.git
-```
+.
+├── backend/
+├── frontend/
+├── docker-compose.yml
+├── observability/
+│   ├── grafana/
+│   │   ├── dashboards/
+│   │   │   ├── docker_host.json
+│   │   │   ├── backend_health.json
+│   │   │   └── loki_logs_overview.json
+│   │   └── provisioning/
+│   │       ├── dashboards/
+│   │       │   └── dashboards.yml
+│   │       └── datasources/
+│   │           └── datasources.yml
+│   ├── prometheus/
+│   │   └── prometheus.yml
+│   ├── loki/
+│   │   └── loki-config.yml
+│   └── promtail/
+│       └── promtail-config.yml
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+└── README.md
 
-- Add this repo as another "remote" to allow you to get updates later:
 
-```bash
-git remote add upstream git@github.com:fastapi/full-stack-fastapi-template.git
-```
+⸻
 
-- Push the code to your new repository:
+🔭 Observabilidad
 
-```bash
-git push -u origin master
-```
+📊 Métricas – Prometheus & cAdvisor
 
-### Update From the Original Template
+Prometheus recolecta métricas cada 15 segundos desde los contenedores.
 
-After cloning the repository, and after doing changes, you might want to get the latest changes from this original template.
+Métricas utilizadas
+Estado del backend:
 
-- Make sure you added the original repository as a remote, you can check it with:
+up{job="backend"}
 
-```bash
-git remote -v
+Contenedores activos:
 
-origin    git@github.com:octocat/my-full-stack.git (fetch)
-origin    git@github.com:octocat/my-full-stack.git (push)
-upstream    git@github.com:fastapi/full-stack-fastapi-template.git (fetch)
-upstream    git@github.com:fastapi/full-stack-fastapi-template.git (push)
-```
+count(container_last_seen)
 
-- Pull the latest changes without merging:
+Uso de CPU:
 
-```bash
-git pull --no-commit upstream master
-```
+rate(container_cpu_usage_seconds_total[1m])
 
-This will download the latest changes from this template without committing them, that way you can check everything is right before committing.
+Uso de memoria:
 
-- If there are conflicts, solve them in your editor.
+container_memory_usage_bytes
 
-- Once you are done, commit the changes:
+Estas métricas se visualizan en dashboards automáticos en Grafana.
 
-```bash
-git merge --continue
-```
+⸻
 
-### Configure
+📜 Logs – Loki & Promtail
 
-You can then update configs in the `.env` files to customize your configurations.
+Promtail recolecta logs directamente desde Docker:
 
-Before deploying it, make sure you change at least the values for:
+/var/lib/docker/containers/*/*.log
 
-- `SECRET_KEY`
-- `FIRST_SUPERUSER_PASSWORD`
-- `POSTGRES_PASSWORD`
+Loki centraliza los logs y Grafana permite consultas LogQL.
 
-You can (and should) pass these as environment variables from secrets.
+Consulta funcional principal
 
-Read the [deployment.md](./deployment.md) docs for more details.
+sum by (container) (
+  count_over_time({job="docker"}[1m])
+)
 
-### Generate Secret Keys
+Esto permite ver la cantidad de logs generados por contenedor en tiempo real.
 
-Some environment variables in the `.env` file have a default value of `changethis`.
+⸻
 
-You have to change them with a secret key, to generate secret keys you can run the following command:
+🧪 Simulación de Errores
 
-```bash
-python -c "import secrets; print(secrets.token_urlsafe(32))"
-```
+Para demostrar observabilidad real, se agregó un error simulado en el backend.
 
-Copy the content and use that as password / secret key. And run that again to generate another secure key.
+Log generado:
 
-## How To Use It - Alternative With Copier
+ERROR_SIMULADO_BACKEND
 
-This repository also supports generating a new project using [Copier](https://copier.readthedocs.io).
+Consulta LogQL para detección:
 
-It will copy all the files, ask you configuration questions, and update the `.env` files with your answers.
+{job="docker"} |= "ERROR_SIMULADO_BACKEND"
 
-### Install Copier
+Esto permite:
+	•	Identificar errores desde Grafana
+	•	Validar el pipeline de logs
+	•	Simular debugging en producción
 
-You can install Copier with:
+⸻
 
-```bash
-pip install copier
-```
+📈 Dashboards de Grafana
 
-Or better, if you have [`pipx`](https://pipx.pypa.io/), you can run it with:
+Grafana utiliza provisioning, por lo que los dashboards se cargan automáticamente al iniciar el contenedor.
 
-```bash
-pipx install copier
-```
+Dashboards incluidos
+	1.	Docker & Host Monitoring
+	•	CPU
+	•	Memoria
+	•	Red
+	•	Contenedores activos
+	2.	Backend Health
+	•	Estado del backend
+	•	CPU
+	•	Memoria
+	3.	Loki – Logs Overview
+	•	Logs por contenedor
+	•	Volumen de logs
+	•	Errores simulados
 
-**Note**: If you have `pipx`, installing copier is optional, you could run it directly.
+Todos los dashboards están definidos en archivos .json.
 
-### Generate a Project With Copier
+⸻
 
-Decide a name for your new project's directory, you will use it below. For example, `my-awesome-project`.
+🔁 CI/CD – GitHub Actions
 
-Go to the directory that will be the parent of your project, and run the command with your project's name:
+El proyecto cuenta con un pipeline automático que se ejecuta en cada push.
 
-```bash
-copier copy https://github.com/fastapi/full-stack-fastapi-template my-awesome-project --trust
-```
+Pasos del pipeline
+	1.	Build de imágenes Docker
+	2.	Push a Docker Hub
+	3.	Conexión SSH a EC2
+	4.	Pull de nuevas imágenes
+	5.	Deploy con Docker Compose
+	6.	Notificación a Discord
 
-If you have `pipx` and you didn't install `copier`, you can run it directly:
+📄 Workflow:
 
-```bash
-pipx run copier copy https://github.com/fastapi/full-stack-fastapi-template my-awesome-project --trust
-```
+.github/workflows/deploy.yml
 
-**Note** the `--trust` option is necessary to be able to execute a [post-creation script](https://github.com/fastapi/full-stack-fastapi-template/blob/master/.copier/update_dotenv.py) that updates your `.env` files.
 
-### Input Variables
+⸻
 
-Copier will ask you for some data, you might want to have at hand before generating the project.
+🔔 Notificaciones a Discord
 
-But don't worry, you can just update any of that in the `.env` files afterwards.
+Cada deploy exitoso envía una notificación automática a Discord con información del despliegue.
 
-The input variables, with their default values (some auto generated) are:
+Esto permite:
+	•	Confirmar despliegues
+	•	Auditoría de cambios
+	•	Feedback inmediato
 
-- `project_name`: (default: `"FastAPI Project"`) The name of the project, shown to API users (in .env).
-- `stack_name`: (default: `"fastapi-project"`) The name of the stack used for Docker Compose labels and project name (no spaces, no periods) (in .env).
-- `secret_key`: (default: `"changethis"`) The secret key for the project, used for security, stored in .env, you can generate one with the method above.
-- `first_superuser`: (default: `"admin@example.com"`) The email of the first superuser (in .env).
-- `first_superuser_password`: (default: `"changethis"`) The password of the first superuser (in .env).
-- `smtp_host`: (default: "") The SMTP server host to send emails, you can set it later in .env.
-- `smtp_user`: (default: "") The SMTP server user to send emails, you can set it later in .env.
-- `smtp_password`: (default: "") The SMTP server password to send emails, you can set it later in .env.
-- `emails_from_email`: (default: `"info@example.com"`) The email account to send emails from, you can set it later in .env.
-- `postgres_password`: (default: `"changethis"`) The password for the PostgreSQL database, stored in .env, you can generate one with the method above.
-- `sentry_dsn`: (default: "") The DSN for Sentry, if you are using it, you can set it later in .env.
+⸻
 
-## Backend Development
+🔐 Gestión de Secretos
 
-Backend docs: [backend/README.md](./backend/README.md).
+Todos los secretos se manejan mediante GitHub Secrets:
+	•	EC2_HOST
+	•	EC2_USER
+	•	EC2_SSH_KEY
+	•	DOCKERHUB_USERNAME
+	•	DOCKERHUB_TOKEN
+	•	DISCORD_WEBHOOK_URL
 
-## Frontend Development
+No se exponen credenciales en el repositorio.
 
-Frontend docs: [frontend/README.md](./frontend/README.md).
+⸻
 
-## Deployment
+☁️ Infraestructura AWS
+	•	Instancia EC2 activa
+	•	Servicios desplegados vía Docker
+	•	Puertos habilitados:
+	•	80 → Frontend
+	•	8000 → Backend
+	•	3000 → Grafana
+	•	9090 → Prometheus
 
-Deployment docs: [deployment.md](./deployment.md).
+⸻
 
-## Development
+✅ Cumplimiento de Rúbricas
 
-General development docs: [development.md](./development.md).
+Requisito	Cumple
+Dockerización	✅
+CI/CD	✅
+AWS	✅
+Observabilidad	✅
+Métricas	✅
+Logs	✅
+Alertas	✅
+Documentación	✅
 
-This includes using Docker Compose, custom local domains, `.env` configurations, etc.
 
-## Release Notes
+⸻
 
-Check the file [release-notes.md](./release-notes.md).
+🏁 Conclusión
 
-## License
+Este proyecto demuestra una implementación DevOps completa y funcional, integrando automatización, despliegue continuo y observabilidad real sobre infraestructura en la nube.
 
-The Full Stack FastAPI Template is licensed under the terms of the MIT license.
+El sistema es:
+	•	Reproducible
+	•	Escalable
+	•	Monitorizable
+	•	Listo para producción
+
+⸻

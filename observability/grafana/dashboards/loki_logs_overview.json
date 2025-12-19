@@ -1,0 +1,58 @@
+{
+    "title": "Loki - Logs Overview",
+    "timezone": "browser",
+    "schemaVersion": 38,
+    "version": 2,
+    "refresh": "10s",
+    "panels": [
+      {
+        "id": 1,
+        "type": "timeseries",
+        "title": "Logs per container (last 1 min)",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "sum by (container) (count_over_time({job=\"docker\"}[1m]))"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "min": 0
+          }
+        },
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 24,
+          "h": 8
+        }
+      },
+      {
+        "id": 2,
+        "type": "logs",
+        "title": "Backend Errors (Loki)",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "{job=\"docker\"} |= \"ERROR_SIMULADO_BACKEND\""
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "wrapLogMessage": true,
+          "prettifyLogMessage": false,
+          "enableLogDetails": true,
+          "dedupStrategy": "none"
+        },
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 24,
+          "h": 10
+        }
+      }
+    ]
+  }

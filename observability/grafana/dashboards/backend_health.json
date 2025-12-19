@@ -1,0 +1,32 @@
+{
+    "id": null,
+    "uid": "backend-health",
+    "title": "Backend – Health & Requests",
+    "schemaVersion": 38,
+    "version": 1,
+    "refresh": "5s",
+    "panels": [
+      {
+        "type": "stat",
+        "title": "Backend UP",
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 6 },
+        "targets": [
+          {
+            "expr": "up{job=\"backend\"}",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "type": "timeseries",
+        "title": "HTTP Requests",
+        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
+        "targets": [
+          {
+            "expr": "http_requests_total",
+            "refId": "A"
+          }
+        ]
+      }
+    ]
+  }

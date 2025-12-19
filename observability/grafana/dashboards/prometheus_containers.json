@@ -1,0 +1,104 @@
+{
+    "title": "Infrastructure & Backend Monitoring",
+    "timezone": "browser",
+    "schemaVersion": 38,
+    "version": 1,
+    "refresh": "10s",
+    "panels": [
+  
+      {
+        "id": 1,
+        "type": "stat",
+        "title": "Backend UP",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "up{job=\"backend\"}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "type": "value",
+                "options": {
+                  "0": { "text": "DOWN", "color": "red" },
+                  "1": { "text": "UP", "color": "green" }
+                }
+              }
+            ],
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": 0 },
+                { "color": "green", "value": 1 }
+              ]
+            }
+          }
+        },
+        "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 }
+      },
+  
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Containers Running",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "count(container_last_seen)"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short"
+          }
+        },
+        "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 }
+      },
+  
+      {
+        "id": 3,
+        "type": "timeseries",
+        "title": "CPU Usage per Container",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "rate(container_cpu_usage_seconds_total[1m])",
+            "legendFormat": "{{container}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "cores",
+            "min": 0
+          }
+        },
+        "gridPos": { "x": 0, "y": 4, "w": 24, "h": 8 }
+      },
+  
+      {
+        "id": 4,
+        "type": "timeseries",
+        "title": "Memory Usage per Container",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "container_memory_usage_bytes",
+            "legendFormat": "{{container}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "bytes",
+            "min": 0
+          }
+        },
+        "gridPos": { "x": 0, "y": 12, "w": 24, "h": 8 }
+      }
+  
+    ]
+  }
