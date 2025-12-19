@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ github.sha }}
 
     steps:
       # 1️⃣ Checkout
@@ -33,7 +35,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            bfdiego/fullstack-backend:latest
+            bfdiego/fullstack-backend:${{ env.IMAGE_TAG }}
 
       # 4️⃣ Build & Push Frontend (multi-arch)
       - name: Build and push frontend
@@ -45,7 +47,7 @@ jobs:
           build-args: |
             VITE_API_URL=http://${{ secrets.EC2_HOST }}:8000
           tags: |
-            bfdiego/fullstack-frontend:latest
+            bfdiego/fullstack-frontend:${{ env.IMAGE_TAG }}
 
       # 5️⃣ Deploy en EC2 por SSH
       - name: Deploy on EC2
@@ -56,9 +58,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /opt/app
+            echo "IMAGE_TAG=${{ env.IMAGE_TAG }}" > .env.deploy
             docker compose down
-            docker compose pull
-            docker compose up -d
+            docker compose --env-file .env.deploy pull
+            docker compose --env-file .env.deploy up -d
 
       # 6️⃣ Notificación a Discordia
       - name: Notify Discord
